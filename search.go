@@ -1,12 +1,12 @@
 package cas
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"encoding/base64"
 )
 
 var TWITCASTING_API string = "https://apiv2.twitcasting.tv"
@@ -14,7 +14,7 @@ var TWITCASTING_API_CLIENT_ID string = os.Getenv("TWITCASTING_API_CLIENT_ID")
 var TWITCASTING_API_CLIENT_SECRET string = os.Getenv("TWITCASTING_API_CLIENT_SECRET")
 
 func basicAuthToken() string {
-	data := TWITCASTING_API_CLIENT_ID+":"+TWITCASTING_API_CLIENT_SECRET
+	data := TWITCASTING_API_CLIENT_ID + ":" + TWITCASTING_API_CLIENT_SECRET
 	return base64.StdEncoding.EncodeToString([]byte(data))
 }
 
