@@ -1,6 +1,26 @@
 package cas
 
+import (
+	"strconv"
+)
+
 type MovieID string
+
+func (id MovieID) ToInt() int {
+	i, err := strconv.Atoi(string(id))
+	if err != nil {
+		return -1 // TODO better error handling?
+	}
+	return i
+}
+
+func (id MovieID) Equal(a MovieID) bool {
+	return id.ToInt() == a.ToInt()
+}
+
+func (id MovieID) GreaterThan(a MovieID) bool {
+	return id.ToInt() > a.ToInt()
+}
 
 type Movie struct {
 	ID               MovieID `json:"id"`
