@@ -2,7 +2,7 @@ package cas
 
 import "testing"
 
-var equalTests = []struct{
+var equalTests = []struct {
 	in1 MovieID
 	in2 MovieID
 	out bool
@@ -19,7 +19,7 @@ func TestMovieID_Equal(t *testing.T) {
 	}
 }
 
-var greaterThanTests = []struct{
+var greaterThanTests = []struct {
 	in1 MovieID
 	in2 MovieID
 	out bool
