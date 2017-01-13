@@ -22,6 +22,10 @@ func (id MovieID) GreaterThan(a MovieID) bool {
 	return id.ToInt() > a.ToInt()
 }
 
+func (id MovieID) String() string {
+	return string(id)
+}
+
 type Movie struct {
 	ID               MovieID `json:"id"`
 	UserID           string  `json:"user_id"`
@@ -52,4 +56,13 @@ type MovieContainer struct {
 
 type Movies struct {
 	Movies []MovieContainer `json:"movies"`
+}
+
+func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
+	m := &MovieContainer{}
+	err := get("/movies/" + id.String(), api.auth(), m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
 }
