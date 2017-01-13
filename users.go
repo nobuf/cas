@@ -10,3 +10,16 @@ type User struct {
 	Live        bool    `json:"is_live"`
 	Created     int     `json:"created"`
 }
+
+type UserContainer struct {
+	User User `json:"user"`
+}
+
+func (api *Client) User(id string) (*UserContainer, error) {
+	u := &UserContainer{}
+	err := get("/users/"+id, api.auth(), u)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
