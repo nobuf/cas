@@ -1,10 +1,10 @@
 package cas
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
 )
 
 func get(path string, auth string, responseFormat interface{}) error {

@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/nobuf/cas"
-	"os"
 	"log"
+	"os"
 )
 
 func main() {
