@@ -17,7 +17,7 @@ type UserContainer struct {
 
 func (api *Client) User(id string) (*UserContainer, error) {
 	u := &UserContainer{}
-	err := get("/users/"+id, api.auth(), u)
+	err := get(api, "/users/"+id, u)
 	if err != nil {
 		return nil, err
 	}

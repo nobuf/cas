@@ -7,13 +7,13 @@ import (
 	"net/http"
 )
 
-func get(path string, auth string, responseFormat interface{}) error {
+func get(api *Client, path string, responseFormat interface{}) error {
 	// TODO support parameters
 	req, _ := http.NewRequest("GET",
-		TWITCASTING_API+path, nil)
+		api.endpoint+path, nil)
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("X-Api-Version", "2.0")
-	req.Header.Add("Authorization", auth)
+	req.Header.Add("Authorization", api.auth())
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

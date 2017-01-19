@@ -60,7 +60,7 @@ type Movies struct {
 
 func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
 	m := &MovieContainer{}
-	err := get("/movies/"+id.String(), api.auth(), m)
+	err := get(api, "/movies/"+id.String(), m)
 	if err != nil {
 		return nil, err
 	}
