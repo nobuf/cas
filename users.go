@@ -1,5 +1,7 @@
 package cas
 
+// User object
+// See http://apiv2-doc.twitcasting.tv/#get-user-info
 type User struct {
 	ID          string  `json:"id"`
 	ScreenID    string  `json:"screen_id"`
@@ -11,10 +13,12 @@ type User struct {
 	Created     int     `json:"created"`
 }
 
+// UserContainer holds a User object
 type UserContainer struct {
 	User User `json:"user"`
 }
 
+// User retrieves a User object by the given user id
 func (api *Client) User(id string) (*UserContainer, error) {
 	u := &UserContainer{}
 	err := get(api, "/users/"+id, u)

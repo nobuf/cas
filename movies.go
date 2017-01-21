@@ -4,9 +4,12 @@ import (
 	"strconv"
 )
 
+// MovieID is identifier of a Movie object.
+// In the TwitCasting world, it's sequential digits.
 type MovieID string
 
-func (id MovieID) ToInt() int {
+// Int converts MovieID to int.
+func (id MovieID) Int() int {
 	i, err := strconv.Atoi(string(id))
 	if err != nil {
 		return -1 // TODO better error handling?
@@ -14,18 +17,24 @@ func (id MovieID) ToInt() int {
 	return i
 }
 
+// Equal returns true if two IDs are identical.
 func (id MovieID) Equal(a MovieID) bool {
-	return id.ToInt() == a.ToInt()
+	return id.Int() == a.Int()
 }
 
+// GreaterThan return true if the source MovieID is greater than the given ID,
+// that means it is newer than the given ID.
 func (id MovieID) GreaterThan(a MovieID) bool {
-	return id.ToInt() > a.ToInt()
+	return id.Int() > a.Int()
 }
 
+// String returns MovieID in string.
 func (id MovieID) String() string {
 	return string(id)
 }
 
+// Movie object.
+// See http://apiv2-doc.twitcasting.tv/#get-movie-info
 type Movie struct {
 	ID               MovieID `json:"id"`
 	UserID           string  `json:"user_id"`
@@ -48,16 +57,19 @@ type Movie struct {
 	HLS              string  `json:"hls_url"`
 }
 
+// MovieContainer holds Movie and its related data.
 type MovieContainer struct {
 	Movie       Movie    `json:"movie"`
 	Broadcaster User     `json:"broadcaster"`
 	Tags        []string `json:"tags"`
 }
 
+// Movies is a slice of MovieContainers.
 type Movies struct {
 	Movies []MovieContainer `json:"movies"`
 }
 
+// Movie retrieves a Movie object by the given MovieID.
 func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
 	m := &MovieContainer{}
 	err := get(api, "/movies/"+id.String(), m)
