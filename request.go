@@ -7,13 +7,16 @@ import (
 	"net/http"
 )
 
+// Make an http request with GET method to the API server.
 func get(api *Client, path string, responseFormat interface{}) error {
 	// TODO support parameters
 	req, _ := http.NewRequest("GET",
 		api.endpoint+path, nil)
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("X-Api-Version", "2.0")
-	req.Header.Add("Authorization", api.auth())
+	if api.hasAuthToken() {
+		req.Header.Add("Authorization", api.auth())
+	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
