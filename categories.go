@@ -2,11 +2,11 @@ package cas
 
 // SubCategory such as "イケボ（男子）" in the "声" category
 type SubCategory struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 
 	// Number of current live Movies
-	Count int    `json:"count"`
+	Count int `json:"count"`
 }
 
 // Category such as "声"

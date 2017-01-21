@@ -1,6 +1,7 @@
 package cas
 
 import (
+	"github.com/google/go-querystring/query"
 	"strconv"
 )
 
@@ -77,4 +78,22 @@ func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
 		return nil, err
 	}
 	return m, nil
+}
+
+// GetCommentsOptions are the parameters for getting Comments.
+type GetCommentsOptions struct {
+	Offset int    `url:"offset"`
+	Limit  int    `url:"limit"`
+	Since  string `url:"since_id"`
+}
+
+// Comments retrieves Comments by the given MovieID.
+func (api *Client) Comments(id MovieID, p GetCommentsOptions) (*CommentsContainer, error) {
+	c := &CommentsContainer{}
+	q, _ := query.Values(c)
+	err := get(api, "/movies/"+id.String()+"/comments?"+q.Encode(), c)
+	if err != nil {
+		return nil, err
+	}
+	return c, nil
 }
