@@ -8,7 +8,8 @@ import (
 
 func main() {
 	api := cas.New(os.Getenv("TWITCASTING_API_CLIENT_ID"), os.Getenv("TWITCASTING_API_CLIENT_SECRET"))
-	lives, err := api.SearchRecommendLives()
+	lives, err := api.RecommendedLives()
+	//lives, err := api.SearchLivesByTags([]string{"顔出し", "弾き語り"})
 	if err != nil {
 		log.Fatal(err)
 	}
