@@ -9,7 +9,6 @@ import (
 
 // Make an http request with GET method to the API server.
 func get(api *Client, path string, responseFormat interface{}) error {
-	// TODO support parameters
 	req, _ := http.NewRequest("GET",
 		api.endpoint+path, nil)
 	req.Header.Add("Accept", "application/json")
