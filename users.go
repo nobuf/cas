@@ -8,6 +8,7 @@ type User struct {
 	Name        string  `json:"name"`
 	Image       string  `json:"image"`
 	Profile     string  `json:"profile"`
+	Level       int     `json:"level"`
 	LastMovieID MovieID `json:"last_movie_id"`
 	Live        bool    `json:"is_live"`
 	Created     int     `json:"created"`
