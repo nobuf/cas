@@ -41,7 +41,7 @@ type Movie struct {
 	UserID           string  `json:"user_id"`
 	Title            string  `json:"title"`
 	Subtitle         string  `json:"subtitle"`
-	LastOwnerComment      string  `json:"last_owner_comment"`
+	LastOwnerComment string  `json:"last_owner_comment"`
 	Link             string  `json:"link"`
 	Live             bool    `json:"is_live"`
 	Recorded         bool    `json:"is_recorded"`
