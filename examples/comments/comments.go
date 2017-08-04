@@ -8,7 +8,7 @@ import (
 
 func main() {
 	api := cas.New(os.Getenv("TWITCASTING_API_CLIENT_ID"), os.Getenv("TWITCASTING_API_CLIENT_SECRET"))
-	c, err := api.Comments(cas.MovieID(os.Args[1]), cas.GetCommentsOptions{})
+	c, err := api.Comments(cas.MovieID(os.Args[1]), api.DefaultCommentsOption())
 	if err != nil {
 		log.Fatal(err)
 	}
