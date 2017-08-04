@@ -71,6 +71,11 @@ type Movies struct {
 	Movies []MovieContainer `json:"movies"`
 }
 
+// UserMovies is a slice of Movie objects.
+type UserMovies struct {
+	Movies []Movie `json:"movies"`
+}
+
 // Movie retrieves a Movie object by the given MovieID.
 func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
 	m := &MovieContainer{}
@@ -97,4 +102,21 @@ func (api *Client) Comments(id MovieID, p GetCommentsOptions) (*CommentsContaine
 		return nil, err
 	}
 	return c, nil
+}
+
+// GetUserMoviesOptions is a collection of parameters for getting UserMovies.
+type GetUserMoviesOptions struct {
+	Offset int `url:"offset"`
+	Limit  int `url:"limit"`
+}
+
+// UserMovies retrieves Movies by the given user id.
+func (api *Client) UserMovies(id string, p *GetUserMoviesOptions) (*UserMovies, error) {
+	movies := &UserMovies{}
+	q, _ := query.Values(p)
+	err := get(api, "/users/"+id+"/movies?"+q.Encode(), movies)
+	if err != nil {
+		return nil, err
+	}
+	return movies, nil
 }
