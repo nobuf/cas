@@ -8,9 +8,13 @@ import (
 
 func main() {
 	api := cas.New(os.Getenv("TWITCASTING_API_CLIENT_ID"), os.Getenv("TWITCASTING_API_CLIENT_SECRET"))
-	c, err := api.Comments(cas.MovieID(os.Args[1]), api.DefaultCommentsOption())
+	userMovies, err := api.UserMovies(os.Args[1], &cas.UserMoviesOption{
+		Limit: 3,
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("%+v\n", c)
+	for _, m := range userMovies.Movies {
+		log.Printf("%s - %s", m.Title, m.Link)
+	}
 }

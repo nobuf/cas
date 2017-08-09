@@ -71,6 +71,11 @@ type Movies struct {
 	Movies []MovieContainer `json:"movies"`
 }
 
+// UserMovies is a slice of Movie objects.
+type UserMovies struct {
+	Movies []Movie `json:"movies"`
+}
+
 // Movie retrieves a Movie object by the given MovieID.
 func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
 	m := &MovieContainer{}
@@ -81,20 +86,54 @@ func (api *Client) Movie(id MovieID) (*MovieContainer, error) {
 	return m, nil
 }
 
-// GetCommentsOptions are the parameters for getting Comments.
-type GetCommentsOptions struct {
+// CommentsOption are the parameters for getting Comments.
+type CommentsOption struct {
 	Offset int    `url:"offset"`
 	Limit  int    `url:"limit"`
 	Since  string `url:"since_id"`
 }
 
+// DefaultCommentsOption returns a CommentsOption with default values.
+func (api *Client) DefaultCommentsOption() *CommentsOption {
+	return &CommentsOption{
+		Offset: 0,
+		Limit:  10,
+		Since:  "",
+	}
+}
+
 // Comments retrieves Comments by the given MovieID.
-func (api *Client) Comments(id MovieID, p GetCommentsOptions) (*CommentsContainer, error) {
+func (api *Client) Comments(id MovieID, p *CommentsOption) (*CommentsContainer, error) {
 	c := &CommentsContainer{}
-	q, _ := query.Values(c)
+	q, _ := query.Values(p)
 	err := get(api, "/movies/"+id.String()+"/comments?"+q.Encode(), c)
 	if err != nil {
 		return nil, err
 	}
 	return c, nil
+}
+
+// UserMoviesOption is a collection of parameters for getting UserMovies.
+type UserMoviesOption struct {
+	Offset int `url:"offset"`
+	Limit  int `url:"limit"`
+}
+
+// DefaultUserMoviesOptions returns a UserMoviesOption with default values.
+func (api *Client) DefaultUserMoviesOption() *UserMoviesOption {
+	return &UserMoviesOption{
+		Offset: 0,
+		Limit:  10,
+	}
+}
+
+// UserMovies retrieves Movies by the given user id.
+func (api *Client) UserMovies(id string, p *UserMoviesOption) (*UserMovies, error) {
+	movies := &UserMovies{}
+	q, _ := query.Values(p)
+	err := get(api, "/users/"+id+"/movies?"+q.Encode(), movies)
+	if err != nil {
+		return nil, err
+	}
+	return movies, nil
 }
