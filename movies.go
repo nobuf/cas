@@ -1,6 +1,7 @@
 package cas
 
 import (
+	"fmt"
 	"github.com/google/go-querystring/query"
 	"strconv"
 )
@@ -100,6 +101,16 @@ func (api *Client) DefaultCommentsOption() *CommentsOption {
 		Limit:  10,
 		Since:  "",
 	}
+}
+
+// UserCurrentLive get the current live of the user by user id, if no, it will throw 404
+func (api *Client) UserCurrentLive(id string) (*MovieContainer, error) {
+	m := &MovieContainer{}
+	err := get(api, fmt.Sprintf("/users/%s/current_live", id), m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // Comments retrieves Comments by the given MovieID.
