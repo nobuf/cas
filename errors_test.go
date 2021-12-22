@@ -21,18 +21,5 @@ func TestRequestError_Error(t *testing.T) {
 		return
 	}
 
-	t.Logf("RequestError: %s", requestError.Error())
-
-	// expected 1000 unauthorized token
-	if requestError.Content.Code != 1000 {
-		t.Errorf("expected 1000 code, got %v", requestError.Content.Code)
-		return
-	}
-
-	if requestError.Content.Message != "Invalid token" {
-		t.Errorf("expected '%s' message, got %s", "Invalid token", requestError.Content.Message)
-		return
-	}
-
-	t.Log("Test Pass.")
+	t.Logf("RequestError: %+v", requestError)
 }
