@@ -7,6 +7,11 @@ import (
 	"net/http"
 )
 
+// Get open custom get request to let user request the api we didn't provide
+func (api *Client) Get(path string, responseFormat interface{}) error {
+	return get(api, path, responseFormat)
+}
+
 // Make an http request with GET method to the API server.
 func get(api *Client, path string, responseFormat interface{}) error {
 	req, _ := http.NewRequest("GET",
@@ -24,7 +29,14 @@ func get(api *Client, path string, responseFormat interface{}) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error: %s", resp.Status)
+		var requestError *RequestError
+		body, _ := ioutil.ReadAll(resp.Body)
+		// If it cannot parse to TwitCasting response error, just throw the error status
+		if err = json.Unmarshal(body, &requestError); err != nil {
+			return fmt.Errorf("http error: %s", resp.Status)
+		}
+		requestError.StatusCode = resp.StatusCode // assign real http status code
+		return requestError
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
 	err = json.Unmarshal(body, &responseFormat)
